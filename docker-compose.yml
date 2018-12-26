@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  lifesplay:
+    container_name: lifesplay
+    build: .
+    ports:
+      - "3555:3555"
+    environment:
+      - SERVER_URL=3555
+      - DATABASE_ENGINE=postgres
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=lifesplay
+      - DATABASE_USER=lifesplay
+      - DATABASE_PASSWORD=thisisnotsecure
+    volumes:
+      - ./internal:/go/src/github.com/meuhmeuh/lifesplay/internal
+      # - ./configs:/go/src/github.com/meuhmeuh/lifesplay/configs
+    depends_on:
+      - postgres
+  postgres:
+    image: "postgres:10.5-alpine"
+    restart: always
+    environment:
+      POSTGRES_DB: lifesplay
+      POSTGRES_USER: lifesplay
+      POSTGRES_PASSWORD: thisisnotsecure
+    ports:
+      - "5432:5432"
