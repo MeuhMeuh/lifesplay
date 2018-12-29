@@ -2,7 +2,6 @@ package lifesplay
 
 import (
 	"flag"
-	"log"
 	"net/http"
 	"time"
 
@@ -68,12 +67,7 @@ func (app *App) Initialize() {
 
 // Start starts the main application.
 func (app *App) Start() {
-
-	log.Println("lol")
-
 	BootGUI(app)
-
-	log.Println("going for the loop")
 }
 
 // BootGUI boots the Electron app thanks to astilectron.
@@ -108,15 +102,13 @@ func BootGUI(app *App) {
 			},
 		}},
 		OnWait: func(_ *astilectron.Astilectron, iw []*astilectron.Window, _ *astilectron.Menu, _ *astilectron.Tray, _ *astilectron.Menu) error {
-
-			log.Println("MUT MUT")
-			log.Println(*app.Debug)
 			if *app.Debug {
 				iw[0].OpenDevTools()
 			}
-			app.Window = iw[0]
-			return nil
 
+			app.Window = iw[0]
+
+			return nil
 		},
 	}); err != nil {
 		astilog.Fatal(errors.Wrap(err, "running bootstrap failed"))
