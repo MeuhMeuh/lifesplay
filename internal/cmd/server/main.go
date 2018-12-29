@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 
 	"github.com/meuhmeuh/lifesplay/internal/app/lifesplay"
@@ -17,7 +18,9 @@ func main() {
 		panic(fmt.Errorf("Could not read the configuration file : %s", err))
 	}
 
-	lifesplay := &lifesplay.App{}
+	lifesplay := &lifesplay.App{
+		Debug: flag.Bool("d", false, "enables the debug mode"),
+	}
 
 	lifesplay.Initialize()
 

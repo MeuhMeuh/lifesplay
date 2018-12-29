@@ -1,2 +1,4 @@
-vendor
+.DS_Store
 config/*.json
+resources/app/static/lib
+vendor

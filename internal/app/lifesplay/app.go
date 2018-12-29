@@ -1,23 +1,35 @@
 package lifesplay
 
 import (
+	"flag"
+	"log"
 	"net/http"
 	"time"
 
 	"github.com/meuhmeuh/lifesplay/internal/pkg/events"
+	"github.com/pkg/errors"
 
 	"github.com/spf13/viper"
 	"golang.org/x/oauth2"
 	"google.golang.org/api/calendar/v3"
+
+	astilectron "github.com/asticode/go-astilectron"
+	bootstrap "github.com/asticode/go-astilectron-bootstrap"
+	astilog "github.com/asticode/go-astilog"
 )
 
 // App defines the app wrapper.
 type App struct {
 	EventsClient *http.Client
+	Debug        *bool
+	Window       *astilectron.Window
 }
 
 // Initialize sets up what's needed to run the application.
 func (app *App) Initialize() {
+	astilog.FlagInit()
+	flag.Parse()
+
 	var creds credentials
 
 	err := viper.UnmarshalKey("calendar.credentials", &creds)
@@ -56,7 +68,57 @@ func (app *App) Initialize() {
 
 // Start starts the main application.
 func (app *App) Start() {
-	for {
 
+	log.Println("lol")
+
+	BootGUI(app)
+
+	log.Println("going for the loop")
+}
+
+// BootGUI boots the Electron app thanks to astilectron.
+func BootGUI(app *App) {
+	// Init
+
+	if err := bootstrap.Run(bootstrap.Options{
+		AstilectronOptions: astilectron.Options{
+			AppName:            "Lifesplay",
+			AppIconDarwinPath:  "resources/logo.icns",
+			AppIconDefaultPath: "resources/logo.png",
+		},
+		Debug: *app.Debug,
+		Windows: []*bootstrap.Window{&bootstrap.Window{
+			Homepage: "index.html",
+			Options: &astilectron.WindowOptions{
+				TitleBarStyle: astilectron.TitleBarStyleHidden,
+				// Fullscreen:      astilectron.PtrBool(true), /* Will be great for the Rasp later. */
+				BackgroundColor: astilectron.PtrStr("#333"),
+				Center:          astilectron.PtrBool(true),
+				Width:           astilectron.PtrInt(800),
+				Height:          astilectron.PtrInt(480),
+			},
+
+			MessageHandler: HandleMessages,
+		}},
+		MenuOptions: []*astilectron.MenuItemOptions{{
+			Label: astilectron.PtrStr("File"),
+			SubMenu: []*astilectron.MenuItemOptions{
+				{Label: astilectron.PtrStr("About")},
+				{Role: astilectron.MenuItemRoleClose},
+			},
+		}},
+		OnWait: func(_ *astilectron.Astilectron, iw []*astilectron.Window, _ *astilectron.Menu, _ *astilectron.Tray, _ *astilectron.Menu) error {
+
+			log.Println("MUT MUT")
+			log.Println(*app.Debug)
+			if *app.Debug {
+				iw[0].OpenDevTools()
+			}
+			app.Window = iw[0]
+			return nil
+
+		},
+	}); err != nil {
+		astilog.Fatal(errors.Wrap(err, "running bootstrap failed"))
 	}
 }
