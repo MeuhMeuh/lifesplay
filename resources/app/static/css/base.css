@@ -7,6 +7,7 @@ html, body {
   font-family: "Helvetica Neue", Arial;
   -webkit-app-region: drag;
   cursor: default;
+  font-weight: 300;
 }
 main {
   margin: 0 auto;
@@ -14,9 +15,12 @@ main {
   text-align: center;
 }
 
-/* h1 {
+h1 {
   display: none;
+  font-weight: 300;
+  font-size: 3em;
 }
 h2 {
   display: none;
-} */
+  font-weight: 300;
+}
