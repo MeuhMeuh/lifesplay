@@ -20,15 +20,15 @@ const handleError = (notifier, payload) => {
 document.addEventListener("astilectron-ready", function() {
   // This will send a message to GO
   astilectron.sendMessage({ name: "ui.ready", payload: {} }, function(message) {
-    console.log(message);
     asticode.loader.hide();
     if (message.payload.error) {
       return handleError(asticode.notifier, message.payload);
     }
-    document.querySelector("h1 span").innerHTML =
-      message.payload.body.firstName;
+    $("h1 span").html(message.payload.body.firstName);
     $("h1").fadeIn(800, () => {
-      $("h2").fadeIn(800);
+      $("h2").fadeIn(800, () => {
+        $("#greetings").css("top", 0);
+      });
     });
   });
 

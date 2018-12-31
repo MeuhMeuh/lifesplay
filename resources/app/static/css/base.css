@@ -8,19 +8,28 @@ html, body {
   -webkit-app-region: drag;
   cursor: default;
   font-weight: 300;
+  outline: none;
 }
 main {
-  margin: 0 auto;
-  padding: 3em;
   text-align: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
+#greetings {
+  height: 120px;
+}
 h1 {
   display: none;
   font-weight: 300;
   font-size: 3em;
+  margin: 0;
 }
 h2 {
   display: none;
   font-weight: 300;
+  margin: 0;
 }
