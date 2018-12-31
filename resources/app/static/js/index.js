@@ -17,6 +17,41 @@ const handleError = (notifier, payload) => {
   console.log(payload);
 };
 
+const displayEvents = events => {
+  console.log(events);
+  const htmlEvents = [];
+  const htmlEventList = document.getElementById("events");
+  events.forEach(e => {
+    let li = document.createElement("li");
+    let eventName = document.createElement("h3");
+    eventName.innerHTML = e.summary;
+    li.appendChild(eventName);
+
+    // Determining the time (and thus the position) of the event.
+    // We actually will ignore the timezone : it is already at the timezone
+    // That the user uses, and thus, it means that s.he will want to display the events
+    // According to this timezone.
+    const startDateTime = new Date(Date.parse(e.start.dateTime));
+    const endDateTime = new Date(Date.parse(e.end.dateTime));
+    const startDateTimeMinutes =
+      startDateTime.getHours() * 60 + startDateTime.getMinutes();
+
+    const eventDuration = Math.abs(endDateTime - startDateTime) / 36e5;
+
+    const topPosition = (startDateTimeMinutes * 3600) / 2160;
+
+    console.log(`${e.summary} :: ${eventDuration}`);
+    const eventHeight = eventDuration * 180;
+    li.style = `top: ${topPosition}px; height: ${eventHeight}px;`;
+
+    htmlEventList.appendChild(li);
+  });
+  // Flex-start to have the event list start from the top.
+  $("main").css("alignItems", "flex-start");
+  $(htmlEventList).css("display", "block");
+  $(htmlEventList).animate({ opacity: 1 }, 800);
+};
+
 document.addEventListener("astilectron-ready", function() {
   // This will send a message to GO
   astilectron.sendMessage({ name: "ui.ready", payload: {} }, function(message) {
@@ -27,7 +62,9 @@ document.addEventListener("astilectron-ready", function() {
     $("h1 span").html(message.payload.body.firstName);
     $("h1").fadeIn(800, () => {
       $("h2").fadeIn(800, () => {
-        $("#greetings").css("top", 0);
+        $("#splash").fadeOut(800, () =>
+          displayEvents(message.payload.body.events)
+        );
       });
     });
   });

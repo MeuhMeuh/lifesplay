@@ -2,7 +2,6 @@ package lifesplay
 
 import (
 	"fmt"
-	"log"
 
 	astilectron "github.com/asticode/go-astilectron"
 	bootstrap "github.com/asticode/go-astilectron-bootstrap"
@@ -22,8 +21,6 @@ func (lifesplay *Lifesplay) HandleMessages(_ *astilectron.Window, m bootstrap.Me
 			Events    []*calendar.Event `json:"events"`
 		}
 		s := uiReady{FirstName: viper.Get("me.firstName").(string)}
-
-		log.Println(viper.Get("me.firstName").(string))
 
 		// Retrieving the events to send them back straight after the UI has been booted.
 		// In case of an error, we push it
