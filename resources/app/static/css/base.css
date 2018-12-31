@@ -46,22 +46,23 @@ h3 {
 #events {
   margin: 0;
   padding: 0;
-  height: 2160px; /* 230*12 */
+  height: 4320px; /* 180*24 */
   opacity: 0;
   position: relative;
   width: 90%;
   margin: 0 auto;
-  background-color: rbga(255, 255, 255, 0.1);
   display: none;
+  background-color: #232323;
+  margin-bottom: 1em;
 }
 
 #events li {
   padding: 0;
   list-style-type: none;
   height: 180px;
-  width: 100%;
+  width: 90%;
   position: absolute;
-  left: 0;
+  left: 5%;
   background-color: #999;
 }
 

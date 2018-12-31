@@ -38,10 +38,12 @@ const displayEvents = events => {
 
     const eventDuration = Math.abs(endDateTime - startDateTime) / 36e5;
 
-    const topPosition = (startDateTimeMinutes * 3600) / 2160;
+    const topPosition = (startDateTimeMinutes * 180) / 60;
 
     console.log(`${e.summary} :: ${eventDuration}`);
-    const eventHeight = eventDuration * 180;
+    // We remove 5px from the height to have a delimiter between the date separations
+    // And event neighbors.
+    const eventHeight = 180 * eventDuration - 5;
     li.style = `top: ${topPosition}px; height: ${eventHeight}px;`;
 
     htmlEventList.appendChild(li);
