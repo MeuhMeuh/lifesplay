@@ -39,8 +39,6 @@ const displayEvents = events => {
     const eventDuration = Math.abs(endDateTime - startDateTime) / 36e5;
 
     const topPosition = (startDateTimeMinutes * 180) / 60;
-
-    console.log(`${e.summary} :: ${eventDuration}`);
     // We remove 5px from the height to have a delimiter between the date separations
     // And event neighbors.
     const eventHeight = 180 * eventDuration - 5;
@@ -52,6 +50,19 @@ const displayEvents = events => {
   $("main").css("alignItems", "flex-start");
   $(htmlEventList).css("display", "block");
   $(htmlEventList).animate({ opacity: 1 }, 800);
+
+  // Moving to the right event, placing it at the center.
+  const now = new Date();
+  const nowDateTimeMinutes = now.getHours() * 60 + now.getMinutes();
+  const nowPosition = (nowDateTimeMinutes * 180) / 60;
+  const scroll = nowPosition - 480 / 2;
+
+  $("body").animate(
+    {
+      scrollTop: scroll
+    },
+    1600
+  );
 };
 
 document.addEventListener("astilectron-ready", function() {
