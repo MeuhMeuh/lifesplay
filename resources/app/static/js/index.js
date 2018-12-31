@@ -61,7 +61,16 @@ const displayEvents = events => {
     {
       scrollTop: scroll
     },
-    1600
+    1600,
+    () => {
+      $("#timeDelimiter").animate(
+        {
+          top: nowPosition,
+          opacity: 0.75
+        },
+        800
+      );
+    }
   );
 };
 

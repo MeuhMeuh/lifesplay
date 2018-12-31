@@ -73,3 +73,16 @@ h3 {
 #events li h3 {
   margin: 0;
 }
+
+#timeDelimiter {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    opacity: 0;
+    height: 1px;
+    width: 100%;
+    border: 0;
+    background-color: #F00;
+    padding: 0; 
+}
