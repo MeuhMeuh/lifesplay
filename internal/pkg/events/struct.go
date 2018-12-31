@@ -1,4 +1,4 @@
-package lifesplay
+package events
 
 // Defines the credentials structure used for the Calendar OAuth2 authentication.
 type credentials struct {

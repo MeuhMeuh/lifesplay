@@ -18,11 +18,11 @@ func main() {
 		panic(fmt.Errorf("Could not read the configuration file : %s", err))
 	}
 
-	lifesplay := &lifesplay.App{
+	lifesplay := &lifesplay.Lifesplay{
 		Debug: flag.Bool("d", false, "enables the debug mode"),
+		NoUI:  flag.Bool("no-ui", false, "disables the UI. Useful when developing on the backend only."),
 	}
 
 	lifesplay.Initialize()
-
 	lifesplay.Start()
 }
