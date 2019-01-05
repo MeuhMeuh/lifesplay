@@ -1,25 +1,86 @@
 const util = require("util");
 
-let index = {
-  init: function() {
-    console.log("Initializing asticode tools...");
-    asticode.loader.init();
-    asticode.modaler.init();
-    asticode.notifier.init();
-
-    asticode.loader.show();
-  }
-};
-
 const handleError = (notifier, payload) => {
   notifier.error(payload.error);
   console.error(`Raised error: ${payload.error}. Body is following.`);
   console.log(payload);
 };
 
+const spawnTimeIndicators = () => {
+  for (let i = 0; i <= 24; i++) {
+    console.log(i);
+    let indicator = document.createElement("div");
+    indicator.className = "indicator";
+
+    let time = i === 24 ? 0 : i;
+    let timeStr = time.toString().length === 1 ? "0" + time : time;
+    let timeSpan = document.createElement("span");
+    timeSpan.className = "time";
+    timeSpan.innerText = `${timeStr}:00`;
+    indicator.appendChild(timeSpan);
+
+    let line = document.createElement("span");
+    line.className = "line";
+    indicator.appendChild(line);
+
+    // Minus 9 to stick the line to the real start of the hour.
+    $(indicator).css("top", i * 180 - 9);
+
+    document.getElementById("timeIndicators").appendChild(indicator);
+  }
+};
+
+const moveTimeDelimiter = cb => {
+  setInterval(() => {
+    // Moving to the right event, placing it at the center.
+    const now = new Date();
+    const nowDateTimeMinutes = now.getHours() * 60 + now.getMinutes();
+    const nowPosition = (nowDateTimeMinutes * 180) / 60 - 12;
+
+    $("#timeDelimiter").animate(
+      {
+        top: nowPosition
+      },
+      800,
+      cb
+    );
+  }, 1000);
+};
+
+const showTimeDelimiter = cb => {
+  $("#timeDelimiter").animate({ opacity: 0.75 }, 800, cb);
+};
+
+const scrollToTimeDelimiter = cb => {
+  // Moving to the right event, placing it at the center.
+  const now = new Date();
+  const nowDateTimeMinutes = now.getHours() * 60 + now.getMinutes();
+  const nowPosition = (nowDateTimeMinutes * 180) / 60;
+  const scroll = nowPosition - 480 / 2;
+  $("body").animate(
+    {
+      scrollTop: scroll
+    },
+    1600,
+    () => cb
+  );
+};
+
+const startScrollWatch = () => {
+  $(window).scroll(() => {
+    clearTimeout($.data(this, "scrollTimer"));
+    $.data(
+      this,
+      "scrollTimer",
+      setTimeout(function() {
+        scrollToTimeDelimiter();
+      }, 3000)
+    );
+  });
+};
+
 const displayEvents = events => {
   console.log(events);
-  const htmlEvents = [];
   const htmlEventList = document.getElementById("events");
   events.forEach(e => {
     let li = document.createElement("li");
@@ -51,27 +112,12 @@ const displayEvents = events => {
   $(htmlEventList).css("display", "block");
   $(htmlEventList).animate({ opacity: 1 }, 800);
 
-  // Moving to the right event, placing it at the center.
-  const now = new Date();
-  const nowDateTimeMinutes = now.getHours() * 60 + now.getMinutes();
-  const nowPosition = (nowDateTimeMinutes * 180) / 60;
-  const scroll = nowPosition - 480 / 2;
+  spawnTimeIndicators();
+  scrollToTimeDelimiter();
+  showTimeDelimiter();
+  moveTimeDelimiter();
 
-  $("body").animate(
-    {
-      scrollTop: scroll
-    },
-    1600,
-    () => {
-      $("#timeDelimiter").animate(
-        {
-          top: nowPosition,
-          opacity: 0.75
-        },
-        800
-      );
-    }
-  );
+  //startScrollWatch();
 };
 
 document.addEventListener("astilectron-ready", function() {

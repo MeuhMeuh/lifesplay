@@ -16,6 +16,7 @@
         </div>
         <ul id="events"></ul>
         <div id="timeDelimiter"></div>
+        <div id="timeIndicators"></div>
     </main>
     <script>window.$ = window.jQuery = require('./static/lib/jquery/jquery.min.js');</script>
     <script src="static/js/index.js"></script>
@@ -23,7 +24,12 @@
     <script src="static/lib/astimodaler/astimodaler.js"></script>
     <script src="static/lib/astinotifier/astinotifier.js"></script>
     <script type="text/javascript">
-        index.init();
+        (() => {
+            asticode.loader.init();
+            asticode.modaler.init();
+            asticode.notifier.init();
+            asticode.loader.show();
+        })();
     </script>
 </body>
 </html>
