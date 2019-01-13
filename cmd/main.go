@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/gobuffalo/packr"
-	"github.com/meuhmeuh/lifesplay/internal/app/lifesplay"
+	"github.com/meuhmeuh/lifesplay/internal/pkg/lifesplay"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
