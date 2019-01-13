@@ -8,7 +8,9 @@ import (
 	"google.golang.org/api/calendar/v3"
 )
 
-func GetNextEvents(eventsClient *http.Client, calendarID string) (*calendar.Events, error) {
+// GetEventsOfTheDay retrieves the list of events for a given calendar ID
+// for the whole day ([0:00 -> 23:59:59.99999999] interval).
+func GetEventsOfTheDay(eventsClient *http.Client, calendarID string) (*calendar.Events, error) {
 	srv, err := calendar.New(eventsClient)
 	if err != nil {
 		log.Fatalf("Unable to retrieve Calendar client: %v", err)
@@ -28,15 +30,4 @@ func GetNextEvents(eventsClient *http.Client, calendarID string) (*calendar.Even
 		MaxResults(10).
 		OrderBy("startTime").
 		Do()
-	// if len(events.Items) == 0 {
-	// 	fmt.Println("You're free.")
-	// } else {
-	// 	for _, item := range events.Items {
-	// 		date := item.Start.DateTime
-	// 		if date == "" {
-	// 			date = item.Start.Date
-	// 		}
-	// 		fmt.Printf("%v (%v)\n", item.Summary, date)
-	// 	}
-	// }
 }

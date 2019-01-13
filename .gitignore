@@ -2,4 +2,5 @@
 lifesplay
 config/*.json
 resources/app/static/lib
+resources/logs
 vendor

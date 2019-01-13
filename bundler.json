@@ -1,0 +1,6 @@
+{
+  "app_name": "lifesplay",
+  "icon_path_darwin": "resources/logo.icns",
+  "icon_path_linux": "resources/logo.png",
+  "icon_path_windows": "resources/logo.ico"
+}
