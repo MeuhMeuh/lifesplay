@@ -16,15 +16,15 @@ func main() {
 	// Very optimistic way to start the app.
 	var err error
 
-	box := packr.NewBox("../../../config")
+	box := packr.NewBox("../config")
 
-	if _, err := os.Stat("../../../resources/logs"); os.IsNotExist(err) {
-		os.MkdirAll("../../../resources/logs", 0777)
+	if _, err := os.Stat("../resources/logs"); os.IsNotExist(err) {
+		os.MkdirAll("../resources/logs", 0777)
 	}
 
 	// Logs
 	var log = logrus.New()
-	logFile, err := os.OpenFile("../../../resources/logs/lifesplay.log", os.O_CREATE|os.O_WRONLY, 0666)
+	logFile, err := os.OpenFile("../resources/logs/lifesplay.log", os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		panic(fmt.Errorf("Something went wrong when opening the log file"))
 	}
