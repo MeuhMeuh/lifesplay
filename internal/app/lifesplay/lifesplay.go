@@ -47,7 +47,7 @@ func (lifesplay *Lifesplay) Initialize() {
 
 // Start starts the main application.
 func (lifesplay *Lifesplay) Start() {
-	startUI(lifesplay)
+	StartUI(lifesplay)
 }
 
 func (lifesplay *Lifesplay) handlePostUIBoot(w []*astilectron.Window) {
@@ -62,7 +62,7 @@ func (lifesplay *Lifesplay) HandleMessages(_ *astilectron.Window, m bootstrap.Me
 
 	switch m.Name {
 	case "ui.ready":
-		err = handleUIReady(lifesplay, payload)
+		err = HandleUIReady(lifesplay, payload)
 	}
 
 	return payload, err
